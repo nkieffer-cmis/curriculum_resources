@@ -14,14 +14,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import os
 import webapp2
+from google.appengine.api import users
+from google.appengine.ext.webapp import template
+import views
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Hello world!')
-
+        user = users.get_current_user()
+        if user:
+            path = os.path.join(os.path.dirname(__file__), views.main)
+            self.response.write(template.render(path, {"logout_url" : users.create_logout_url('/')}))
+        else:
+            self.redirect(users.create_login_url('/'))
+        
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    webapp2.Route('/resource/create', handler='resource.Create'),
-    webapp2.Route('/resource/json', handler='resource.Retrieve')
+    webapp2.Route('/resource/edit', handler='resource.Handler'),
+    webapp2.Route('/resource/edit/<resource_id:\d+>', handler='resource.Handler'),
+    webapp2.Route('/resource/delete/<resource_id:\d+>', handler='resource.Handler'),
+    webapp2.Route('/resource', handler='resource.Handler'),
+    webapp2.Route('/resource/<resource_id:\d+>', handler='resource.Handler')
 ], debug=True)

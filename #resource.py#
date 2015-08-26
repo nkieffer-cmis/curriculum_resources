@@ -3,7 +3,6 @@ import dbmodels
 import logging
 import datetime
 import json
-from google.appengine.api import users
 
 
 class Handler(webapp2.RequestHandler):

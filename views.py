@@ -1,0 +1,1 @@
+main = "views/main.html"
