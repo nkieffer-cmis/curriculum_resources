@@ -8,7 +8,11 @@ class ResourceReview(ndb.Model):
     submitter = ndb.UserProperty(required=True)
     ts_created = ndb.DateTimeProperty(required=True)
     text = ndb.TextProperty(required=True)
-
+    @property
+    def dict(self):
+        return { "submitter": self.submitter.nickname(),
+                 "ts_created" : self.ts_created,
+                 "text" : self.text }
 class Resource(ndb.Model):
     title = ndb.StringProperty(required=True)
     description = ndb.TextProperty(required=True)
@@ -28,12 +32,13 @@ class Resource(ndb.Model):
 
     @property
     def dict(self):
-        data = { "title" : self.title,
+        data = { "id": self.key.id(), 
+                 "title" : self.title,
                  "description" : self.description,
                  "ts_created" : self.ts_created.isoformat(),
                  "ts_modified" : self.ts_modified.isoformat(),
                  "creator" : self.creator,
                  "urls" : self.urls,
-                 "reviews" : self.reviews }
+                 "reviews" : [ r.dict for r in self.reviews ] }
         return data
 
