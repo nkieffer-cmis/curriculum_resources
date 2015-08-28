@@ -25,6 +25,10 @@ $(function(){
 		render: function() {
 			console.dir(this.model);
 			this.$el.append(this.template(this.model));
+			reviewInput = new document.ReviewInput({ resourceId: this.model.id });
+			reviewInput.resourceId = this.model.id;
+			document.ReviewInputs.push(reviewInput);
+			reviewInput.render();
 			return this;
 		}
 	});
@@ -38,6 +42,5 @@ $(function(){
 		}
 	});
 	console.dir(document.Resources.length);
-	
-	
+		
 });

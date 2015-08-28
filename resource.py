@@ -16,6 +16,7 @@ class Handler(webapp2.RequestHandler):
         resource.ts_modified = datetime.datetime.now()
      #   resource.creator = users.get_current_user()
         resource.urls = params['urls'].split(",")
+        resource.tags = [dbmodels.Tag(name=tag) for tag in params['tags'].split(",")]
         resource.put()
         logging.info("Created new resource: {}".format(resource.key.id()))
     
@@ -27,6 +28,12 @@ class Handler(webapp2.RequestHandler):
         resource.ts_modified = datetime.datetime.now()
      #   resource.creator = users.get_current_user()
         resource.urls = params['urls'].split(",")
+        logging.info("here")
+     #   for tag in params['tags'].split(","):
+          #  newTag = Tag(name=tag)
+      #      logging.info(tag)
+          #  resource.tags.append(newTag)
+        resource.tags = [dbmodels.Tag(name=tag) for tag in params['tags'].split(",")]
         resource.put()
         logging.info("Modified resource: {}".format(resource_id))
 

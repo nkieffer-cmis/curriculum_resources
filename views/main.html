@@ -2,34 +2,43 @@
   <head>
     <title>Curriculum Resources</title>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.2/backbone-min.js"></script>
+	<script type="text/javascript" src="js/reviews.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
   </head>
   <body>
-    <h1>Curriculum Resources</h1>
-    <a href='{{ logout_url }}'>Log Out</a>
-	<div id="resources">
+	<header>
+      <h1>Curriculum Resources</h1>
+	</header>
+	<nav>
+      <a href='{{ logout_url }}'>Log Out</a>
+	</nav>
+	<main>
+	  <div id="resources">
+	  </div>
+	</main>
+	<footer>
+	</footer>
+	<div id="templates">
+	  <script type="text/template" id="resource-tmp">
+		<article class="resource" id="resource:<%= id %>">
+		  <details>
+			<summary>
+			  <%= title %>
+			</summary>
+			submitted: <date class="ts_created"><%= new Date(ts_created).toDateString() %></date>
+			modified: <date class="ts_modified"><%= new Date(ts_modified).toDateString() %></date>
+			<p><%= description %></p>
+			<ul class="urls">
+			  <% _.each( urls, function(url){ print("<li><a href='"+url+"'>"+url+"</a></li>"); }); %>
+			</ul>
+			<div class="tags">
+			  <% _.each( tags, function(tag){ print(tag);}) %>
+			</div>
+		  </details>
+		</article>
+	  </script>
 	</div>
-    <address>
-      <a href="mailto:nathan@Nathans-iMac-2.local">Nathan Kieffer</a>
-    </address>
-	<script type="text/template" id="resource-tmp">
-	  <article class="resource">
-		<details>
-
-		  <summary>
-			<%= title %>
-		  </summary>
-		  submitted: <date class="ts_created"><%= new Date(ts_created).toDateString() %></date>
-		  modified: <date class="ts_modified"><%= new Date(ts_modified).toDateString() %></date>
-		  <p><%= description %></p>
-		  <ul>
-			<% _.each( urls, function(url){ print("<li><a href='"+url+"'>"+url+"</a></li>"); }); %>
-		  </ul>
-		  <textarea class='review' id='review:<%= id %>'></textarea>
-		</details>
-	  </article>
-	</script>
   </body>
 </html>
