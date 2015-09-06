@@ -1,0 +1,27 @@
+* {
+    font-family:arial;
+}
+html {
+    background-color:purple;
+}
+body {
+    width: 960px;
+    margin: 0 auto;
+    background-color:white;
+}
+
+header {
+    background-color:#ddd;
+    padding:1em;
+}
+
+nav {
+    outline:dotted blue 1px;
+    width: 25%;
+    float:left;
+}
+main {
+    outline:dotted red 1px;
+    padding:1em;
+    margin-left:25%;
+}

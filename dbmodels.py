@@ -41,7 +41,7 @@ class Resource(ndb.Model):
 
     @property
     def dict(self):
-        data = { "id": self.key.id(), 
+        data = { "key": self.key.id(), 
                  "title" : self.title,
                  "description" : self.description,
                  "ts_created" : self.ts_created.isoformat(),
