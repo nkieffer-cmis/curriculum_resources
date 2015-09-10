@@ -1,0 +1,81 @@
+<html>
+  <head>
+	<title>Search</title>
+    <style type="text/css">
+	#results {
+		clear: both;
+		outline:dotted 1px blue;
+		width: 40%;
+		float: left;
+}
+#resultViewer {
+		outline:dotted 1px red;
+	margin-left: 49%;
+	width: 50%;
+}
+
+#viewer {
+	width: 100%;
+	hieght: 100%;
+}
+.title{
+display:block;
+}
+	
+	</style>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
+<script type="text/javascript">
+$(function(){
+	var baseSearchUrl = "https://www.googleapis.com/customsearch/v1?key=AIzaSyB3dshepyKKZ5JvlPcKOhcEM_d0lBlkdb8&cx=017503385175410437525:ulwnmkxn5vs&q=";
+//	var baseSearchUrl = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&key=key=AIzaSyB3dshepyKKZ5JvlPcKOhcEM_d0lBlkdb8&q="
+	$("#search").change(function(){
+		var query = $(this)[0].value.split(" ");
+		console.log(query);
+		searchUrl = baseSearchUrl+query.join("+");
+		console.log(searchUrl);
+		$.ajax({
+			url : searchUrl,
+			method: "GET",
+			success: function(results, status, xhr){
+				console.log(results);
+				_.each(results.items, function(result){
+				//	console.log(result);
+					entry = $("<article>");
+					title = $("<span>");
+					title.addClass("title");
+					title.html(result.htmlTitle);
+					url = $("<a>");
+					url.attr('href', result.link);
+					url.html(result.htmlFormattedUrl);
+					$(url).click(function(){
+						$('#viewer').attr('src', result.link);
+						$('#popOut').attr('href', result.link);
+						return false;
+					});
+					snippet = $("<p>").html(result.snippet);
+					entry.append(title);
+					entry.append(url);
+					entry.append(snippet);
+					$("#results").append(entry);
+					console.log(entry);
+				});	
+			}
+		});
+	});
+});
+
+</script>
+
+</head>
+<body>
+<h1>Search</h1>
+<input type="text" id="search"/>
+<br/>
+<div id="results"></div>
+<div id="resultViewer">
+<a id="popOut" target="_blank">Popout</a>
+<iframe id="viewer"></iframe>
+</div>
+</body>
+</html>
